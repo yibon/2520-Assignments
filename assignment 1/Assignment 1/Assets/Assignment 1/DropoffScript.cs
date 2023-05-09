@@ -25,6 +25,8 @@ namespace Assignment1
                 //You should use the FinishDelivery function in GameController.
                 //TASK 4a START
 
+                gameController.FinishDelivery(false, deliveryIndex);
+
                 //TASK 4a END
 
                 //set inactive
@@ -49,6 +51,7 @@ namespace Assignment1
                     //End the delivery as a success.
                     //You should use the FinishDelivery function in GameController.
                     //TASK 4b START
+                    gameController.FinishDelivery(true, deliveryIndex);
 
                     //TASK 4b END
 

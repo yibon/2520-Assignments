@@ -283,7 +283,7 @@ namespace Assignment1
 
             GameObject newobj = new GameObject ();
 
-            //newobj = Instantiate(Resource(prefab), Vector3.zero, Quaternion.identity) as GameObject;
+            newobj = Instantiate((GameObject)prefab);
 
             return newobj; 
 

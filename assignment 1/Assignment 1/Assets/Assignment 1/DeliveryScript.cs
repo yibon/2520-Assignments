@@ -17,6 +17,8 @@ namespace Assignment1
         public GameObject targetIcon;
         public Transform timerFill;
 
+        private SpriteRenderer targetSR;
+
         //initialize delivery
         public virtual void Initialize(GameController aController, float aTimer, int aIndex)
         {
@@ -37,6 +39,9 @@ namespace Assignment1
             //set delivery object active
             isActive = true;
             this.gameObject.SetActive(true);
+
+            targetSR = targetIcon.GetComponent<SpriteRenderer>(); 
+
         }
 
         //TASK 3a: Mouse input detection
@@ -78,8 +83,31 @@ namespace Assignment1
             //If yes, show the target icon and set its colour to white, otherwise hide the icon.
             //TASK 3b START
 
+            if (currentDelivery == deliveryIndex)
+            {
+                targetIcon.SetActive(true);
+                targetSR.color = Color.yellow;
+            }
+
+            else
+            {
+                if (currentDelivery == currentHint)
+                {
+                    targetIcon.SetActive(true);
+                    targetSR.color = Color.white;
+                }
+
+                else
+                {
+                    targetIcon.SetActive(false);
+                }
+            }
+
+
             //TASK 3b END
         }
+
+
 
         //delivery ended (success or fail)
         public void DestroyDelivery()
