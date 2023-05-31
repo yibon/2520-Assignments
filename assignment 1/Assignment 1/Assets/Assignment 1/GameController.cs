@@ -279,15 +279,33 @@ namespace Assignment1
             //and return that instead of creating a new GameObject.
             //TASK 2a/b START
 
-            //TASK 2a
+            //TASK 2a/b
 
             GameObject newobj = new GameObject ();
+            string nameOfprefab = prefab.ToString();
 
-            newobj = Instantiate((GameObject)prefab);
+            if (objectPool.ContainsKey(nameOfprefab))
+            {
+                if (objectPool[nameOfprefab].Count > 0)
+                {
+                    newobj = objectPool[nameOfprefab][0];
+                    objectPool[nameOfprefab].RemoveAt(0);
+                }
+
+                else
+                {
+                    newobj = Instantiate((GameObject)prefab);
+                }
+            }
+
+            else
+            {
+                objectPool.Add(nameOfprefab, new List<GameObject>());
+                newobj = Instantiate((GameObject)prefab);
+            }
+
 
             return newobj; 
-
-
             //TASK 2a/b END
         }
 
@@ -303,7 +321,28 @@ namespace Assignment1
             //More details given in the assignment document.
             //TASK 2c/d START
 
-            Destroy(aObj);
+            string objName = aObj.name.Split('_')[0];
+
+
+            if (objectPool.ContainsKey(objName))
+            {
+                if (objectPool[objName].Count < POOL_MAX)
+                {
+                    objectPool[objName].Add(aObj);
+                }
+
+                else
+                {
+                    Destroy(aObj);
+                }
+            }
+
+            else
+            {
+                Destroy(aObj);
+            }
+
+
 
             //TASK 2c/d END
         }
