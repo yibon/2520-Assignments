@@ -45,6 +45,8 @@ namespace Assignment2
             //As this is done in FixedUpdate, the delta time to be passed as input parameter will be Time.fixedDeltaTime.
             //Task 2c START
 
+            currentState.DoActionUpdate(Time.fixedDeltaTime);
+
             //Task 2c END
         }
 
@@ -53,6 +55,8 @@ namespace Assignment2
             //Task 2a: Set current state
             //Set the current state of the Guard to the input nextState.
             //Task 2a START
+
+            currentState = nextState;
 
             //Task 2a END
         }
@@ -78,6 +82,8 @@ namespace Assignment2
             //Set the initial state of the Guard by setting currentState to a new EnemyStatePatrol state.
             //You will need to pass in this EnemyScript as an input parameter to the constructor.
             //Task 2b START
+
+            currentState = new EnemyStatePatrol(this);
 
             //Task 2b END
         }

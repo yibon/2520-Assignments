@@ -74,7 +74,7 @@ namespace Assignment2
                 //Run Initialize function on the GameSceneController found.
                 //Task 1a START
 
-                Scene newlyLoaded = SceneManager.GetActiveScene();
+                Scene newlyLoaded = SceneManager.GetSceneByName(aScene);
                 GameObject[] rootObjs = newlyLoaded.GetRootGameObjects();
 
                 for (int i = 0; i < rootObjs.Length; i++)
@@ -82,7 +82,7 @@ namespace Assignment2
                     currentSceneController = rootObjs[i].GetComponentInChildren<GameSceneController>();
                 }
 
-                currentSceneController.Initialize(GameController.);
+                currentSceneController.Initialize(this);
 
                 //Task 1a END
             };

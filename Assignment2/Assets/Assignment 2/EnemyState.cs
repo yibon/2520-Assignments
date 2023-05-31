@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assignment2
@@ -192,6 +193,39 @@ namespace Assignment2
     //Guards will stay in idle state until a timer reaches or exceeds the specified idleTime in enemyScript, 
     //after which they will change to Patrol state.
     //Task 3 START
+
+    // Create an EnemyStateIdle state for the Guards in EnemyState.cs.
+    public class EnemyStateIdle : EnemyState
+    {
+        public EnemyStateIdle(EnemyScript enemyScript) : base(enemyScript)
+        {
+            // When Idle state is entered, the Guard’s eye colour should be set to black and 
+            enemyScript.SetEyeColour(Color.black);
+
+            // idleCount is reset to 0 (using SetIdleCount function in EnemyScript).
+            enemyScript.SetIdleCount(0);
+        }
+
+        public override void DoActionUpdate(float dTime)
+        {
+            // a timer should be used to keep track of how long the Guard is idle. 
+            float idleTimer = 0;
+            idleTimer += dTime;
+
+            // Once the timer reaches or exceeds idleTime, 
+            if (idleTimer >= enemyScript.idleTime)
+            {
+                // change the current state of the enemy to Patrol state.
+                // This can be done using SetCurrentState function in EnemyScript.
+                enemyScript.SetCurrentState(new EnemyStateAlert(enemyScript));
+            }
+        }
+
+        public override void ReachTarget()
+        {
+            // No action needs to be done in ReachTarget function.
+        }
+    }
 
     //Task 3 END
 }
