@@ -259,10 +259,22 @@ namespace Assignment2
             //start attack sequence
             attackTimer = 0;
 
+            AttackStrategy attacc;
+            attacc = gameObject.GetComponent<AttackStrategy>();
+
+
             //Task 5a: Do attack
             //Perform the attack assigned to the enemy by calling DoAttack function in the attached AttackStrategy.
             //You should first check if an AttackStrategy has been attached to this gameObject.
             //Task 5a START
+
+            // You should first check if an AttackStrategy has been attached to this gameObject. 
+            if (attacc != null)
+            {
+                // Perform the attack assigned to the enemy by calling
+                // DoAttack function in the AttackStrategy attached to the Guard game object. 
+                attacc.DoAttack();
+            }
 
             //Task 5a
         }
