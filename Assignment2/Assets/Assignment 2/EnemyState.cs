@@ -43,6 +43,26 @@ namespace Assignment2
             //When changing states, you can pass enemyScript as an input parameter.
             //Task 4a START
 
+            // check if the player is within the enemy's sight, using CheckPlayerWithinSight function in EnemyScript. 
+            if (enemyScript.CheckPlayerWithinSight())
+            {
+                // set current state to EnemyStateAlert. 
+                // When changing states, you can pass enemyScript as an input parameter
+                enemyScript.SetCurrentState(new EnemyStateAlert(enemyScript));
+            }
+
+            // If the player is NOT within range,
+            else
+            {
+                // check if the guard is due for idle state, using CheckIsIdle function in EnemyScript
+                if (enemyScript.CheckIsIdle())
+                {
+                    // change to EnemyStateIdle state if true.
+                    // When changing states, you can pass enemyScript as an input parameter
+                    enemyScript.SetCurrentState(new EnemyStateIdle(enemyScript));
+                }
+            }
+
             //Task 4a END
         }
 
@@ -54,7 +74,7 @@ namespace Assignment2
             enemyScript.AddIdleCount(1);
         }
     }
-
+        
     public class EnemyStateAlert : EnemyState
     {
         public EnemyStateAlert(EnemyScript enemyScript) : base(enemyScript)
@@ -86,9 +106,17 @@ namespace Assignment2
             }
 
             //Task 4b: Alert State Transitions
-            //When the distance between the target position and the guard's position is within farRange, stay in the current state.
+            //When the distance between the target position and the guard's position is within farRange,
+            //stay in the current state.
             //Otherwise, transition to EnemyStateSuspicious state.
             //Task 4b START
+
+            // check if the player is within attack range using CheckPlayerWithinAttackRange function in EnemyScript
+            if (enemyScript.CheckPlayerWithinAttackRange())
+            {
+                // change current state to EnemyStateAttack if true.
+                enemyScript.SetCurrentState(new EnemyStateAttack(enemyScript));
+            }
 
             //Task 4b END
         }
@@ -169,14 +197,39 @@ namespace Assignment2
             //Current suspicion value can be obtained using GetSuspicion function in enemyScript.
             //Task 4c START
 
-            //randomly select look direction
-            if (lookDir == 0) lookDir = (Random.Range(0, 1f) > 0.5f) ? 1f : -1f;
-
-            //rotate on the spot
-            enemyScript.Rotate(dTime * enemyScript.lookAroundSpeed * lookDir);
 
             //reduce suspicion
             enemyScript.ReduceSuspicionDeltaTime(dTime);
+
+
+            // Modify this function to check if the player is within sight or attack range,
+            // using CheckPlayerWithinSight and CheckPlayerWithinAttackRange in EnemyScript.
+            if (enemyScript.CheckPlayerWithinSight() || enemyScript.CheckPlayerWithinAttackRange())
+            {
+                // If true, go to Alert state.
+                enemyScript.SetCurrentState(new EnemyStateAlert(enemyScript));
+            }
+
+            else
+            {
+                // Otherwise, the enemy should rotate in a random direction on the spot until
+                // suspicion reaches or goes below 0, 
+                if (enemyScript.GetSuspicion() > 0)
+                {
+                    //randomly select look direction
+                    if (lookDir == 0) lookDir = (Random.Range(0, 1f) > 0.5f) ? 1f : -1f;
+
+                    //rotate on the spot
+                    enemyScript.Rotate(dTime * enemyScript.lookAroundSpeed * lookDir);
+                }
+
+                else
+                {
+                    // at which point it returns to Patrol state.
+                    enemyScript.SetCurrentState(new EnemyStatePatrol(enemyScript));
+                }
+            }
+
 
             //Task 4c END
         }
@@ -197,6 +250,8 @@ namespace Assignment2
     // Create an EnemyStateIdle state for the Guards in EnemyState.cs.
     public class EnemyStateIdle : EnemyState
     {
+        float idleTimer = 0f;
+        
         public EnemyStateIdle(EnemyScript enemyScript) : base(enemyScript)
         {
             // When Idle state is entered, the Guard’s eye colour should be set to black and 
@@ -209,8 +264,8 @@ namespace Assignment2
         public override void DoActionUpdate(float dTime)
         {
             // a timer should be used to keep track of how long the Guard is idle. 
-            float idleTimer = 0;
             idleTimer += dTime;
+            Debug.Log("idle timer: " + idleTimer + ";; Delta time:" + dTime);
 
             // Once the timer reaches or exceeds idleTime, 
             if (idleTimer >= enemyScript.idleTime)
