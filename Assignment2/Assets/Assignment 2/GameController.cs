@@ -135,7 +135,25 @@ namespace Assignment2
             //Set Time.timeScale to 0 if paused, and 1f if unpaused.
             //Set pauseScreen gameObject to active if paused and inactive if unpaused.
             //Task 6a START
+            isPaused = aPause;
 
+            if (isPaused)
+            {
+                // Set Time.timeScale to 0 if paused, 
+                Time.timeScale = 0;
+
+                // Set pauseScreen gameObject to active if paused
+                pauseScreen.SetActive(true);
+            }
+
+            else
+            {
+                // Set Time.timeScale and 1f if unpaused.
+                Time.timeScale = 1;
+
+                // Set pauseScreen gameObject inactive if unpaused.
+                pauseScreen.SetActive(false);
+            }
             //Task 6a END
         }
 
