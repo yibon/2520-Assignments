@@ -198,9 +198,6 @@ namespace Assignment2
             //Task 4c START
 
 
-            //reduce suspicion
-            enemyScript.ReduceSuspicionDeltaTime(dTime);
-
 
             // Modify this function to check if the player is within sight or attack range,
             // using CheckPlayerWithinSight and CheckPlayerWithinAttackRange in EnemyScript.
@@ -221,6 +218,9 @@ namespace Assignment2
 
                     //rotate on the spot
                     enemyScript.Rotate(dTime * enemyScript.lookAroundSpeed * lookDir);
+
+                    //reduce suspicion
+                    enemyScript.ReduceSuspicionDeltaTime(dTime);
                 }
 
                 else
@@ -263,9 +263,7 @@ namespace Assignment2
 
         public override void DoActionUpdate(float dTime)
         {
-            // a timer should be used to keep track of how long the Guard is idle. 
-            idleTimer += dTime;
-            Debug.Log("idle timer: " + idleTimer + ";; Delta time:" + dTime);
+            //Debug.Log("idle timer: " + idleTimer + ";; Delta time:" + dTime);
 
             // Once the timer reaches or exceeds idleTime, 
             if (idleTimer >= enemyScript.idleTime)
@@ -273,6 +271,12 @@ namespace Assignment2
                 // change the current state of the enemy to Patrol state.
                 // This can be done using SetCurrentState function in EnemyScript.
                 enemyScript.SetCurrentState(new EnemyStateAlert(enemyScript));
+            }
+
+            else
+            {
+                // a timer should be used to keep track of how long the Guard is idle. 
+                idleTimer += dTime;
             }
         }
 

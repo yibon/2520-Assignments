@@ -79,10 +79,13 @@ namespace Assignment2
 
                 for (int i = 0; i < rootObjs.Length; i++)
                 {
-                    currentSceneController = rootObjs[i].GetComponentInChildren<GameSceneController>();
+                    if (rootObjs[i].GetComponentInChildren<GameSceneController>())
+                    { 
+                        currentSceneController = rootObjs[i].GetComponentInChildren<GameSceneController>();
+                        currentSceneController.Initialize(this);
+                    }
                 }
 
-                currentSceneController.Initialize(this);
 
                 //Task 1a END
             };
